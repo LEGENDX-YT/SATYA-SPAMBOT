@@ -4,19 +4,19 @@
 _get_repolink () {
     local regex
     regex='(https?)://github.com/.+/.+'
-    if [[ $RIZ_REPO == "DEADLY-SPAM-BOT" ]]
+    if [[ $SATYA_REPO == "SATYA-SPAM-BOT" ]]
     then
         echo "aHR0cHM6Ly9naXRodWIuY29tL0RFQURMWS1GSUdIVEVSUy9ERUFETFktU1BBTS1CT1QvYXJjaGl2ZS9tYWluLnppcA==" | base64 -d
-    elif [[ $RIZ_REPO == "DEADLY-SPAM-BOT" ]]
+    elif [[ $SATYA_REPO == "SATYA-SPAM-BOT" ]]
     then
         echo "aHR0cHM6Ly9naXRodWIuY29tL0RFQURMWS1GSUdIVEVSUy9ERUFETFktU1BBTS1CT1QvYXJjaGl2ZS9tYWluLnppcA==" | base64 -d
-    elif [[ $RIZ_REPO =~ $regex ]]
+    elif [[ $SATYA_REPO =~ $regex ]]
     then
-        if [[ $RIZ_REPO_BRANCH ]]
+        if [[ $SATYA_REPO_BRANCH ]]
         then
-            echo "${RIZ_REPO}/archive/${RIZ_REPO_BRANCH}.zip"
+            echo "${SATYA_REPO}/archive/${SATYA_REPO_BRANCH}.zip"
         else
-            echo "${RIZ_REPO}/archive/main.zip"
+            echo "${SATYA_REPO}/archive/satya.zip"
         fi
     else
         echo "aHR0cHM6Ly9naXRodWIuY29tL0RFQURMWS1GSUdIVEVSUy9ERUFETFktU1BBTS1CT1QvYXJjaGl2ZS9tYWluLnppcA==" | base64 -d
@@ -26,22 +26,22 @@ _get_repolink () {
 
 _set_bot () {
     local zippath
-    zippath="deadly-spam-bot.zip"
+    zippath="satya-spam-bot.zip"
     echo "  Downloading source code ..."
     wget -q $(_get_repolink) -O "$zippath"
     echo "  Unpacking Data ..."
-    RIZPATH=$(zipinfo -1 "$zippath" | grep -v "/.");
+    SATYAPATH=$(zipinfo -1 "$zippath" | grep -v "/.");
     unzip -qq "$zippath"
     echo "Done"
     echo "  Cleaning ..."
     rm -rf "$zippath"
     sleep 5
-    cd $RIZPATH
-    echo "  Starting.  DEADLY SPAM BOT "
-    echo "DEADLY SPAM BOT"
+    cd $SATYAPATH
+    echo "  Starting.  SATYA SPAM BOT "
+    echo "SATYA SPAM BOT"
 
     python3 ./setup/updater.py ./requirements.txt requirements.txt
-    python3 -m OfficialSameer
+    python3 -m satyaspammer
 }
 
 _set_bot
